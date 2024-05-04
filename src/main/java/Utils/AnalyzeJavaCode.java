@@ -3,10 +3,7 @@ package Utils;
 import Panel.FooterPanel;
 import com.src.jcodechecker.MainController;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class AnalyzeJavaCode {
     private final MainController mainController;
@@ -18,16 +15,17 @@ public class AnalyzeJavaCode {
     public void analyze() {
         String filePath = mainController.pathField.getText();
 
-        FileReader javaFileReader = getJavaFile(filePath);
-        if(javaFileReader == null)
+        FileReader complexityCheckerReader = getJavaFile(filePath);
+        FileReader codeStyleCheckerReader = getJavaFile(filePath);
+        if(complexityCheckerReader == null || codeStyleCheckerReader == null)
             return;
 
         mainController.errorText.setVisible(false);
         mainController.infoContainer.setVisible(true);
 
-        BufferedReader bufferedReader = new BufferedReader(javaFileReader);
 
-        checkCodeComplexity(bufferedReader);
+        checkCodeComplexity(new BufferedReader(complexityCheckerReader));
+        checkCodeStyle(new BufferedReader(codeStyleCheckerReader));
     }
 
     private FileReader getJavaFile(String filePath)
@@ -58,9 +56,21 @@ public class AnalyzeJavaCode {
     {
         ComplexityEvaluator complexityEvaluator = new ComplexityEvaluator(mainController, bufferedReader);
         complexityEvaluator.displayMostComplexMethods();
+
+        try {
+            bufferedReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     private void checkCodeStyle(BufferedReader bufferedReader)
     {
+        CodeStyleEvaluator codeStyleEvaluator = new CodeStyleEvaluator(mainController, bufferedReader);
 
+        try {
+            bufferedReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

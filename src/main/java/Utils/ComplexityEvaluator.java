@@ -1,8 +1,8 @@
 package Utils;
 
+import Factory.ConditionalStatementFactory;
 import Model.Method;
 import Model.Statements.ConditionalStatement;
-import Model.Statements.ConditionalStatementFactory;
 import com.src.jcodechecker.MainController;
 
 import java.io.BufferedReader;
@@ -10,21 +10,19 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class ComplexityEvaluator {
+public class ComplexityEvaluator implements Evaluator {
     private final MainController mainController;
     private final BufferedReader bufferedReader;
-    private final Pattern pattern;
+
     private final List<Method> methods;
     private final Method[] mostComplexMethods;
-    private static final String METHOD_REGEX = "(public|protected|private|static|\\s) +[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{?|[^;])";
 
     public ComplexityEvaluator(MainController mainController, BufferedReader bufferedReader)
     {
         this.mainController = mainController;
         this.bufferedReader = bufferedReader;
-        pattern =  Pattern.compile(METHOD_REGEX);
+
         methods = new LinkedList<>();
         mostComplexMethods = new Method[3];
 
@@ -35,12 +33,13 @@ public class ComplexityEvaluator {
         bufferedReader.lines().forEach(this::checkCurrentLine);
         getMostComplexMethods();
     }
-    private void checkCurrentLine(String line)
+    public void checkCurrentLine(String line)
     {
         String trimmedLine = line.trim();
         // Remove the open parenthesis from the line
         StringBuilder modifiedLine = line.endsWith("{") ? new StringBuilder(trimmedLine.substring(0, trimmedLine.length() - 1)) : new StringBuilder(trimmedLine);
-        Matcher matcher = pattern.matcher(modifiedLine);
+        // Check if the current line is a method using a regex from the singleton class
+        Matcher matcher = MethodPattern.getMethodPattern().getPattern().matcher(modifiedLine);
         if(matcher.find())
         {
             // We have found a method, add it into list

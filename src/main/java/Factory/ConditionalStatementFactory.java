@@ -1,4 +1,6 @@
-package Model.Statements;
+package Factory;
+
+import Model.Statements.*;
 
 public class ConditionalStatementFactory {
     public static ConditionalStatement createConditionalStatement(String statement)

@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Test {
-    public int[] sumOfNumbers(int n) {
+    public int[] sum_of_numbers(int n) {
         int sum = 0;
         for (int i = 1; i <= n; i++) {
             sum += i;
