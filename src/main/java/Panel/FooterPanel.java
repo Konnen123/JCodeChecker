@@ -8,16 +8,11 @@ public class FooterPanel {
     public FooterPanel(MainController mainController)
     {
         this.mainController = mainController;
-        AnalyzeJavaCode analyzeJavaCode = new AnalyzeJavaCode(mainController, this);
-        mainController.checkJavaCodeButton.setOnAction(actionEvent -> analyzeJavaCode.analyze());
+        mainController.checkJavaCodeButton.setOnAction(actionEvent -> setButtonAction());
     }
-    public void setErrorTextMessage(String errorMessage)
+    private void setButtonAction()
     {
-        mainController.errorText.setVisible(true);
-        mainController.errorText.setText(errorMessage);
-    }
-    public void hideErrorTextMessage()
-    {
-        mainController.errorText.setVisible(false);
+        AnalyzeJavaCode analyzeJavaCode = new AnalyzeJavaCode(mainController);
+        analyzeJavaCode.analyze();
     }
 }

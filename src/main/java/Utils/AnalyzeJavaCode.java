@@ -3,38 +3,31 @@ package Utils;
 import Panel.FooterPanel;
 import com.src.jcodechecker.MainController;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public class AnalyzeJavaCode {
     private final MainController mainController;
-    private final FooterPanel footerPanel;
 
-    public AnalyzeJavaCode(MainController mainController, FooterPanel footerPanel) {
+    public AnalyzeJavaCode(MainController mainController) {
         this.mainController = mainController;
-        this.footerPanel = footerPanel;
     }
 
     public void analyze() {
         String filePath = mainController.pathField.getText();
 
         FileReader javaFileReader = getJavaFile(filePath);
-        System.out.println(filePath);
-
         if(javaFileReader == null)
-        {
-            System.out.println("NOT FOUND!");
-            footerPanel.setErrorTextMessage("File not found!");
             return;
-        }
-        if(!filePath.endsWith(".java"))
-        {
-            System.out.println("FILE IS NOT JAVA!");
-            footerPanel.setErrorTextMessage("File is not java!");
-            return;
-        }
-        footerPanel.hideErrorTextMessage();
+
+        mainController.errorText.setVisible(false);
+        mainController.infoContainer.setVisible(true);
+
+        BufferedReader bufferedReader = new BufferedReader(javaFileReader);
+
+        checkCodeComplexity(bufferedReader);
     }
 
     private FileReader getJavaFile(String filePath)
@@ -43,9 +36,31 @@ public class AnalyzeJavaCode {
         try {
             fileReader = new FileReader(new File(filePath));
         } catch (FileNotFoundException e) {
+            setErrorMessage("File not found!");
+            return null;
+        }
+
+        if(!filePath.endsWith(".java"))
+        {
+            setErrorMessage("File is not java!");
             return null;
         }
         return fileReader;
+
+    }
+    private void setErrorMessage(String errorMessage)
+    {
+        mainController.errorText.setVisible(true);
+        mainController.infoContainer.setVisible(false);
+        mainController.errorText.setText(errorMessage);
+    }
+    private void checkCodeComplexity(BufferedReader bufferedReader)
+    {
+        ComplexityEvaluator complexityEvaluator = new ComplexityEvaluator(mainController, bufferedReader);
+        complexityEvaluator.displayMostComplexMethods();
+    }
+    private void checkCodeStyle(BufferedReader bufferedReader)
+    {
 
     }
 }

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <VBox alignment="TOP_CENTER" prefHeight="645.0" prefWidth="1045.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.src.jcodechecker.MainController">
@@ -40,7 +42,74 @@
          </ComboBox>
       </children>
    </HBox>
-   <Canvas height="391.0" width="1005.0" />
+   <VBox fx:id="infoContainer" prefHeight="459.0" prefWidth="1011.0">
+      <children>
+         <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="1011.0">
+            <children>
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Highest complexity scores" textAlignment="CENTER" wrappingWidth="562.58203125">
+                  <font>
+                     <Font size="24.0" />
+                  </font>
+               </Text>
+            </children>
+         </HBox>
+         <Line endX="909.2929077148438" endY="-0.20710676908493042" startX="-100.0">
+            <VBox.margin>
+               <Insets top="5.0" />
+            </VBox.margin>
+         </Line>
+         <HBox alignment="BOTTOM_CENTER" prefHeight="247.0" prefWidth="1005.0">
+            <children>
+               <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                  <children>
+                     <Text fx:id="thirdMethod" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="334.9830722808838" />
+                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c7d1da" height="113.0" stroke="BLACK" strokeType="INSIDE" width="337.0" />
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2" />
+                  </children>
+               </VBox>
+               <VBox alignment="BOTTOM_CENTER" prefHeight="241.0" prefWidth="337.0">
+                  <children>
+                     <Text fx:id="firstMethod" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="334.9830722808838" />
+                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="GOLD" height="165.0" stroke="BLACK" strokeType="INSIDE" width="337.0" />
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1" />
+                  </children>
+               </VBox>
+               <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                  <children>
+                     <Text fx:id="secondMethod" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="334.9830722808838" />
+                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#88540b" height="63.0" stroke="BLACK" strokeType="INSIDE" width="337.0" />
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3" />
+                  </children>
+               </VBox>
+            </children>
+         </HBox>
+         <HBox alignment="CENTER" prefHeight="124.0" prefWidth="1011.0">
+            <children>
+               <Text fx:id="totalMethodsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                  <HBox.margin>
+                     <Insets right="200.0" />
+                  </HBox.margin>
+                  <font>
+                     <Font size="36.0" />
+                  </font>
+               </Text>
+               <Text fx:id="nonConformingMethodCountText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                  <HBox.margin>
+                     <Insets right="200.0" />
+                  </HBox.margin>
+                  <font>
+                     <Font size="36.0" />
+                  </font>
+               </Text>
+               <Text fx:id="nonConformingMethodPercentageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                  <font>
+                     <Font size="36.0" />
+                  </font>
+               </Text>
+            </children>
+         </HBox>
+      </children>
+   </VBox>
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
       <children>
          <Button fx:id="checkJavaCodeButton" mnemonicParsing="false" prefHeight="47.0" prefWidth="204.0" text="Check Java Code" textAlignment="CENTER" />

@@ -5,8 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
 
 public class SettingsPanel {
-    private String javaFilePath;
-
     private final MainController mainController;
 
     public SettingsPanel(MainController mainController) {
@@ -25,8 +23,4 @@ public class SettingsPanel {
 
     }
 
-
-    public String getJavaFilePath() {
-        return javaFilePath;
-    }
 }
