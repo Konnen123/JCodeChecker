@@ -12,6 +12,7 @@ public class FooterPanel {
     }
     private void setButtonAction()
     {
+        // On button click, analyze the java file from the path given
         AnalyzeJavaCode analyzeJavaCode = new AnalyzeJavaCode(mainController);
         analyzeJavaCode.analyze();
     }

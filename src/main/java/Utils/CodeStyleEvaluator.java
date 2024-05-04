@@ -1,8 +1,6 @@
 package Utils;
 
-import Controller.NamingConventionController;
 import Factory.NamingConventionFactory;
-import Model.Method;
 import Model.NamingConvention.NamingConvention;
 import com.src.jcodechecker.MainController;
 
@@ -28,9 +26,13 @@ public class CodeStyleEvaluator implements Evaluator {
     private void checkCodeStyle()
     {
         bufferedReader.lines().forEach(this::checkCurrentLine);
+    }
+    public void displayCodeStyleStatistics()
+    {
         mainController.totalMethodsText.setText("Total methods: " + totalMethods);
         mainController.nonConformingMethodCountText.setText("Total methods that are not " + namingConvention +": "+ nonConformingMethodCount);
-        mainController.nonConformingMethodPercentageText.setText("Percentage of methods that are not " + namingConvention +": " + ((float)nonConformingMethodCount* 100/ totalMethods) + "%");
+        float percentage = totalMethods == 0 ? 0 : ((float)nonConformingMethodCount * 100 / totalMethods);
+        mainController.nonConformingMethodPercentageText.setText("Percentage of methods that are not " + namingConvention +": " + percentage + "%");
     }
 
     @Override
@@ -47,8 +49,10 @@ public class CodeStyleEvaluator implements Evaluator {
         if(methodName == null)
             return;
 
+        // We have found a method, increment the counter
         totalMethods++;
         NamingConvention methodNamingConvention = NamingConventionFactory.createNamingConvention(methodName, namingConvention);
+        // If the methodNamingConvention is null it means that the current method does not adhere to the specified naming convention
         if(methodNamingConvention == null)
         {
             nonConformingMethodCount++;

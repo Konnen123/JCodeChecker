@@ -15,6 +15,7 @@ public class AnalyzeJavaCode {
     public void analyze() {
         String filePath = mainController.pathField.getText();
 
+        // Get the java file from the path
         FileReader complexityCheckerReader = getJavaFile(filePath);
         FileReader codeStyleCheckerReader = getJavaFile(filePath);
         if(complexityCheckerReader == null || codeStyleCheckerReader == null)
@@ -23,7 +24,7 @@ public class AnalyzeJavaCode {
         mainController.errorText.setVisible(false);
         mainController.infoContainer.setVisible(true);
 
-
+        // Path is valid and the file is java, check its complexity and code style
         checkCodeComplexity(new BufferedReader(complexityCheckerReader));
         checkCodeStyle(new BufferedReader(codeStyleCheckerReader));
     }
@@ -66,6 +67,7 @@ public class AnalyzeJavaCode {
     private void checkCodeStyle(BufferedReader bufferedReader)
     {
         CodeStyleEvaluator codeStyleEvaluator = new CodeStyleEvaluator(mainController, bufferedReader);
+        codeStyleEvaluator.displayCodeStyleStatistics();
 
         try {
             bufferedReader.close();

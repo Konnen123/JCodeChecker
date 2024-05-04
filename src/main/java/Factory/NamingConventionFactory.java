@@ -1,7 +1,7 @@
 package Factory;
 
-import Controller.CamelCaseController;
-import Controller.SnakeCaseController;
+import Controller.NamingConvention.CamelCaseController;
+import Controller.NamingConvention.SnakeCaseController;
 import Model.NamingConvention.CamelCase;
 import Model.NamingConvention.NamingConvention;
 import Model.NamingConvention.SnakeCase;

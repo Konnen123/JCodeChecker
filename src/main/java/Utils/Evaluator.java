@@ -1,5 +1,5 @@
 package Utils;
 
 public interface Evaluator {
-    public void checkCurrentLine(String line);
+    void checkCurrentLine(String line);
 }

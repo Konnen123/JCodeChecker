@@ -14,7 +14,6 @@ import java.util.regex.Matcher;
 public class ComplexityEvaluator implements Evaluator {
     private final MainController mainController;
     private final BufferedReader bufferedReader;
-
     private final List<Method> methods;
     private final Method[] mostComplexMethods;
 
@@ -23,6 +22,7 @@ public class ComplexityEvaluator implements Evaluator {
         this.mainController = mainController;
         this.bufferedReader = bufferedReader;
 
+        // Use a linked list because we will not need to get an element from a specific index
         methods = new LinkedList<>();
         mostComplexMethods = new Method[3];
 
@@ -36,9 +36,10 @@ public class ComplexityEvaluator implements Evaluator {
     public void checkCurrentLine(String line)
     {
         String trimmedLine = line.trim();
-        // Remove the open parenthesis from the line
+        // Remove the open parenthesis from the line if it exists
         StringBuilder modifiedLine = line.endsWith("{") ? new StringBuilder(trimmedLine.substring(0, trimmedLine.length() - 1)) : new StringBuilder(trimmedLine);
-        // Check if the current line is a method using a regex from the singleton class
+
+        // Check if the current line is a method using the regex from the singleton class
         Matcher matcher = MethodPattern.getMethodPattern().getPattern().matcher(modifiedLine);
         if(matcher.find())
         {
@@ -49,7 +50,7 @@ public class ComplexityEvaluator implements Evaluator {
         if(methods.isEmpty())
             return;
 
-        // We are in a method, find conditional statements
+        // We are in a method, check if the current line is a conditional statement
         ConditionalStatement conditionalStatement = ConditionalStatementFactory.createConditionalStatement(modifiedLine.toString());
         // If the conditionalStatement is null, it means that the current line is not a conditional statement
         if(conditionalStatement == null)
@@ -61,18 +62,23 @@ public class ComplexityEvaluator implements Evaluator {
     }
     private void getMostComplexMethods()
     {
-        Arrays.fill(mostComplexMethods, new Method("Not found"));
-        for(var currentMethod : methods)
+        // Get the three most complex methods
+        mostComplexMethods[0] = methods.size() >=1 ? methods.get(0) : new Method("Not found");
+        mostComplexMethods[1] = methods.size() >=2 ? methods.get(1) : new Method("Not found");
+        mostComplexMethods[2] = methods.size() >=3 ? methods.get(2) : new Method("Not found");
+        for(int i=3;i<methods.size();i++)
         {
             int mostComplexMethodSize = mostComplexMethods[2].getConditionalStatements().size();
-            int currentMethodSize = currentMethod.getConditionalStatements().size();
+            int currentMethodSize = methods.get(i).getConditionalStatements().size();
             if(mostComplexMethodSize < currentMethodSize)
             {
                 // Found a method with higher complexity, add it and then sort the array
-                mostComplexMethods[2] = currentMethod;
+                mostComplexMethods[2] = methods.get(i);
                 Arrays.sort(mostComplexMethods);
             }
         }
+        // Sort in case size is smaller than 3
+        Arrays.sort(mostComplexMethods);
     }
     public void displayMostComplexMethods()
     {
